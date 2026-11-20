@@ -12,10 +12,13 @@ import {
   weekdayHourHeatmap,
 } from '../../../core/stats';
 import { addDays, formatDuration, parseDayKey } from '../../../core/time';
-import { BarChart, DoughnutChart } from '../../../ui/charts';
-import { colorFor, LimitSummary, SiteAvatar } from '../../../ui/components';
+import { BarChart, DoughnutChart, OTHER_COLOR, SERIES_COLORS } from '../../../ui/charts';
+import { LimitSummary, SiteAvatar } from '../../../ui/components';
 import { loadRange } from '../../../ui/data';
 import { useLiveData } from '../../../ui/hooks';
+
+const sliceColor = (domain: string, i: number) =>
+  domain === 'Other' ? OTHER_COLOR : SERIES_COLORS[i % SERIES_COLORS.length]!;
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -135,6 +138,7 @@ export function OverviewView() {
                 labels={labels}
                 values={series}
                 highlight={series.length - 1}
+                height={360}
                 ariaLabel="Active browsing time per day"
               />
             </section>
@@ -143,17 +147,17 @@ export function OverviewView() {
               <DoughnutChart
                 labels={totals.map((t) => t.domain)}
                 values={totals.map((t) => t.ms)}
-                colors={totals.map((t) => (t.domain === 'Other' ? '#9ca3af' : colorFor(t.domain)))}
+                colors={totals.map((t, i) => sliceColor(t.domain, i))}
                 ariaLabel="Share of time per site"
               />
               <ul class="legend">
-                {totals.map((t) => (
+                {totals.map((t, i) => (
                   <li class="spread" key={t.domain}>
                     <span class="row grow">
                       <span
                         class="swatch"
                         style={{
-                          background: t.domain === 'Other' ? '#9ca3af' : colorFor(t.domain),
+                          background: sliceColor(t.domain, i),
                         }}
                       />
                       <span class="truncate">{t.domain}</span>

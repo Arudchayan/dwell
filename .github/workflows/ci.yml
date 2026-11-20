@@ -58,7 +58,7 @@ jobs:
       - run: npm ci
       - run: npm run zip
       - run: npm run zip:firefox
-      - run: npx web-ext lint --source-dir .output/firefox-mv3 --self-hosted
+      - run: npx web-ext lint --source-dir .output/firefox-mv3
       - uses: actions/upload-artifact@v4
         with:
           name: extension-zips

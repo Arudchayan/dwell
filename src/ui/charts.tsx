@@ -54,6 +54,26 @@ function useChart(config: () => ChartConfiguration, deps: unknown[]) {
   return canvas;
 }
 
+/** `#rrggbb` → `rgba(r, g, b, a)`; other formats are returned unchanged. */
+export function withAlpha(hex: string, alpha: number): string {
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex);
+  if (!m) return hex;
+  const [r, g, b] = m.slice(1).map((x) => parseInt(x, 16));
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+/** Distinct colours for chart series, in order. */
+export const SERIES_COLORS = [
+  '#6366f1',
+  '#0891b2',
+  '#f59e0b',
+  '#ec4899',
+  '#10b981',
+  '#8b5cf6',
+  '#ef4444',
+];
+export const OTHER_COLOR = '#9ca3af';
+
 /** Pick a readable axis unit for a data range. */
 function axisUnit(maxMs: number): { div: number; suffix: string } {
   return maxMs >= 2 * HOUR ? { div: HOUR, suffix: 'h' } : { div: MINUTE, suffix: 'm' };
@@ -75,7 +95,7 @@ export function BarChart({
 }) {
   const canvas = useChart(() => {
     const accent = cssVar('--accent');
-    const muted = cssVar('--accent-soft');
+    const muted = withAlpha(accent, 0.3);
     const text = cssVar('--text-3');
     const grid = cssVar('--border');
     const unit = axisUnit(Math.max(0, ...values));

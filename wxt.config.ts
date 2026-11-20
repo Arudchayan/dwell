@@ -5,6 +5,15 @@ import preact from '@preact/preset-vite';
 export default defineConfig({
   srcDir: 'src',
   imports: false,
+  zip: {
+    // The sources zip is what Firefox Add-ons reviewers rebuild from.
+    excludeSources: [
+      'coverage/**',
+      'docs/screenshots/**',
+      'playwright-report/**',
+      'test-results/**',
+    ],
+  },
   vite: () => ({
     plugins: [preact()],
   }),
@@ -29,9 +38,11 @@ export default defineConfig({
           browser_specific_settings: {
             gecko: {
               id: 'dwell@arudchayan.github.io',
-              strict_min_version: '128.0',
+              // 140 (ESR) is the first version supporting data_collection_permissions.
+              strict_min_version: '140.0',
               data_collection_permissions: { required: ['none'] },
             },
+            gecko_android: { strict_min_version: '142.0' },
           },
         }
       : {}),

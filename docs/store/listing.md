@@ -65,3 +65,12 @@ Dwell tracks the active time you spend on websites, shows it to you, and lets yo
 - Data sale: **No.** Data is not sold to third parties.
 - Use or transfer outside the single purpose: **No.** Data is not used or transferred for purposes unrelated to the single purpose, or for creditworthiness or lending.
 - Privacy policy: https://github.com/Arudchayan/dwell/blob/main/PRIVACY.md
+
+## Notes for reviewers
+
+- Source code: https://github.com/Arudchayan/dwell (MIT). Build with `npm ci && npm run zip:firefox`; the
+  `dwell-<version>-sources.zip` produced next to the add-on zip is the exact source used.
+- `web-ext lint` reports one `UNSAFE_VAR_ASSIGNMENT` warning. It comes from Preact's internal support for
+  `dangerouslySetInnerHTML`, which Dwell never uses; no user or page content is ever written as HTML.
+- The extension never reads page content and makes no network requests. Host access is only used by
+  `declarativeNetRequest` to redirect sites that are over their daily limit to the extension's own block page.

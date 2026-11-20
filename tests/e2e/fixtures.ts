@@ -5,7 +5,11 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-const EXTENSION_PATH = path.resolve(import.meta.dirname, '../../.output/chrome-mv3-e2e');
+const EXTENSION_PATH = path.resolve(
+  import.meta.dirname,
+  '../../.output',
+  process.env.DWELL_EXT_DIR ?? 'chrome-mv3-e2e',
+);
 
 /** Fake sites served by a local server. `.test` domains are never on HSTS lists. */
 export const SITES = ['distract.test', 'work.test', 'other.test'] as const;

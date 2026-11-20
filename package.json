@@ -17,12 +17,12 @@
   },
   "scripts": {
     "dev": "wxt",
-    "dev:firefox": "wxt -b firefox",
+    "dev:firefox": "wxt -b firefox --mv3",
     "build": "wxt build",
-    "build:firefox": "wxt build -b firefox",
+    "build:firefox": "wxt build -b firefox --mv3",
     "build:e2e": "wxt build --mode e2e",
     "zip": "wxt zip",
-    "zip:firefox": "wxt zip -b firefox",
+    "zip:firefox": "wxt zip -b firefox --mv3",
     "postinstall": "wxt prepare",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . && prettier --check .",
@@ -31,7 +31,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "npm run build:e2e && playwright test",
-    "lint:firefox": "npm run build:firefox && web-ext lint --source-dir .output/firefox-mv3 --self-hosted"
+    "lint:firefox": "npm run build:firefox && web-ext lint --source-dir .output/firefox-mv3",
+    "screenshots": "npm run build && node scripts/screenshots.mjs"
   },
   "dependencies": {
     "chart.js": "^4.6.1",

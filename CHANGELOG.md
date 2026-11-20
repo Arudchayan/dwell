@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Configurable day reset hour (default: midnight).
 - Data export and import as JSON, CSV export, and a button to delete all data.
 - Configurable data retention (default: 365 days).
-- Support for Chrome, Edge, and Brave (Manifest V3) and Firefox 128 and later.
+- Support for Chrome, Edge, and Brave (Manifest V3) and Firefox 140 and later.
 
 ### Privacy
 

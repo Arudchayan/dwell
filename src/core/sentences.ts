@@ -52,7 +52,7 @@ export function normalizeText(s: string): string {
 
 /** Strip characters a site name could use to break the sentence. */
 function cleanSiteName(name: string): string {
-  return normalizeText(name.replace(/[^\p{L}\p{N} .'&-]/gu, '')) || 'this site';
+  return normalizeText(name.replace(/[^\p{L}\p{N} .'&/+-]/gu, '')) || 'this site';
 }
 
 export interface ChallengeInput {

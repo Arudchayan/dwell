@@ -7,7 +7,7 @@
 
 Dwell is a browser extension that measures how much active time you spend on each website, shows you where it goes, and lets you set daily limits per site or group of sites. All data stays in your browser.
 
-Dwell runs in Chrome, Edge, and Brave (Manifest V3) and in Firefox 128 and later. It is built with WXT, TypeScript, Preact, and Chart.js.
+Dwell runs in Chrome, Edge, and Brave (Manifest V3) and in Firefox 140 and later. It is built with WXT, TypeScript, Preact, and Chart.js.
 
 ## Features
 
@@ -24,7 +24,15 @@ Dwell does not store browsing history or URLs. It keeps only the number of secon
 
 ## Screenshots
 
-Screenshots are coming soon. They will be added to `docs/screenshots/`.
+![Dashboard overview](docs/screenshots/overview-light.png)
+
+| Block page with the typing challenge             | Daily limits                           |
+| ------------------------------------------------ | -------------------------------------- |
+| ![Block page](docs/screenshots/blocked.png)      | ![Limits](docs/screenshots/limits.png) |
+| **Dark mode**                                    | **Toolbar popup**                      |
+| ![Dark mode](docs/screenshots/overview-dark.png) | ![Popup](docs/screenshots/popup.png)   |
+
+_Screenshots use demo data. Regenerate them with `npm run screenshots`._
 
 ## Installation
 
@@ -39,7 +47,7 @@ Store listings for the Chrome Web Store and Firefox Add-ons are coming soon.
 3. Turn on **Developer mode**.
 4. Click **Load unpacked** and select the unzipped folder.
 
-### Firefox 128 or later (from GitHub Releases)
+### Firefox 140 or later (from GitHub Releases)
 
 1. Download the Firefox `.zip` file from the [latest release](https://github.com/Arudchayan/dwell/releases/latest) and unzip it.
 2. Open `about:debugging#/runtime/this-firefox`.
@@ -86,8 +94,15 @@ npm run dev
 | `npm test`              | Run unit tests with Vitest                                |
 | `npm run test:coverage` | Run unit tests with coverage                              |
 | `npm run test:e2e`      | Build the e2e target and run Playwright tests in Chromium |
+| `npm run screenshots`   | Regenerate `docs/screenshots` from demo data              |
 
-To try a development build, load the `.output/chrome-mv3` folder (or `.output/firefox-mv3` for Firefox) as described in [Installation](#installation).
+`npm run dev` opens a fresh browser profile with the extension loaded and reloads it on changes. To try a production build in your own browser, load `.output/chrome-mv3` (or `.output/firefox-mv3`) as described in [Installation](#installation).
+
+### Testing
+
+- **Unit and integration tests** (`npm test`) cover all pure logic in `src/core` (100% line coverage) plus the background engine, blocker and storage against a fake browser.
+- **End-to-end tests** (`npm run test:e2e`) load the real extension into Chromium and drive it against local fake sites: tracking, blocking, the paste-proof challenge, grace periods and escalation, strict mode, day reset, the popup and the dashboard.
+- **Firefox** is checked by `npm run lint:firefox` (`web-ext lint`) on every CI run. Playwright cannot load Firefox extensions, so before a release run `npm run dev:firefox` and check by hand: time is tracked, a 1-minute limit blocks the site, the sentence unlocks it, and the block returns after the grace period.
 
 ## Project structure
 
