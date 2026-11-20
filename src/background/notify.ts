@@ -36,7 +36,7 @@ export function warningText(
 export async function showWarning(kind: WarningKind, status: LimitStatus): Promise<void> {
   const { title, message } = warningText(kind, status);
   try {
-    await browser.notifications.create(`dwell:${status.limit.id}:${kind}`, {
+    await browser.notifications.create(`overstay:${status.limit.id}:${kind}`, {
       type: 'basic',
       iconUrl: browser.runtime.getURL('/icon/128.png'),
       title,

@@ -20,19 +20,19 @@ export interface ChallengeInfo {
 }
 
 export type Request =
-  | { type: 'dwell:flush' }
-  | { type: 'dwell:challenge'; limitId: string }
-  | { type: 'dwell:unlock'; limitId: string; typed: string };
+  | { type: 'overstay:flush' }
+  | { type: 'overstay:challenge'; limitId: string }
+  | { type: 'overstay:unlock'; limitId: string; typed: string };
 
 export type UnlockResult =
   | { ok: true; graceUntil: number }
   | { ok: false; reason: 'mismatch' | 'strict' | 'not-blocked' | 'unknown-limit' };
 
-export type Response<R extends Request> = R extends { type: 'dwell:flush' }
+export type Response<R extends Request> = R extends { type: 'overstay:flush' }
   ? { ok: true }
-  : R extends { type: 'dwell:challenge' }
+  : R extends { type: 'overstay:challenge' }
     ? ChallengeInfo | null
-    : R extends { type: 'dwell:unlock' }
+    : R extends { type: 'overstay:unlock' }
       ? UnlockResult
       : never;
 
@@ -45,6 +45,6 @@ export function isRequest(msg: unknown): msg is Request {
     typeof msg === 'object' &&
     msg !== null &&
     typeof (msg as { type?: unknown }).type === 'string' &&
-    (msg as { type: string }).type.startsWith('dwell:')
+    (msg as { type: string }).type.startsWith('overstay:')
   );
 }

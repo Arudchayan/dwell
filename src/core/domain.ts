@@ -3,7 +3,7 @@ import { parse } from 'tldts';
 const TRACKABLE_PROTOCOLS = new Set(['http:', 'https:']);
 
 /**
- * Map a URL to the key Dwell tracks time under: the registrable ("base")
+ * Map a URL to the key Overstay tracks time under: the registrable ("base")
  * domain, e.g. `https://mobile.twitter.com/home` → `twitter.com`.
  * Returns `null` for anything that is not a regular web page
  * (browser pages, extension pages, files, data URLs, …).

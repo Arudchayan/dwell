@@ -108,7 +108,7 @@ describe('hash', () => {
   it('is stable and uses the 32-bit FNV-1a offset basis for empty input', () => {
     expect(hash('')).toBe(0x811c9dc5);
     expect(hash('a')).toBe(0xe40c292c);
-    expect(hash('dwell')).toBe(hash('dwell'));
+    expect(hash('overstay')).toBe(hash('overstay'));
   });
 
   it('returns an unsigned 32-bit integer and separates different inputs', () => {

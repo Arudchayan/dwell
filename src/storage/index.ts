@@ -1,5 +1,5 @@
 /**
- * Typed access to everything Dwell persists. All data lives in
+ * Typed access to everything Overstay persists. All data lives in
  * `browser.storage.local` on this device; nothing is ever sent anywhere.
  *
  * Layout:

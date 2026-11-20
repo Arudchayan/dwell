@@ -88,7 +88,7 @@ describe('splitInterval', () => {
     ]);
   });
 
-  it('assigns chunks to different Dwell days across the reset boundary', () => {
+  it('assigns chunks to different Overstay days across the reset boundary', () => {
     // resetHour 4: 03:30 belongs to the previous day, 04:00 starts the new one.
     const chunks = splitInterval('x.com', at(2026, 11, 20, 3, 30), at(2026, 11, 20, 4, 30), 4);
     expect(chunks).toEqual([

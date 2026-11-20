@@ -39,17 +39,17 @@ export default defineBackground({
     browser.runtime.onMessage.addListener((msg: unknown) => {
       if (!isRequest(msg)) return undefined;
       switch (msg.type) {
-        case 'dwell:flush':
+        case 'overstay:flush':
           return tick('message').then(() => ({ ok: true }));
-        case 'dwell:challenge':
+        case 'overstay:challenge':
           return getChallenge(msg.limitId);
-        case 'dwell:unlock':
+        case 'overstay:unlock':
           return unlock(msg.limitId, msg.typed);
       }
     });
 
     browser.notifications.onClicked.addListener((id) => {
-      if (id.startsWith('dwell:')) void browser.runtime.openOptionsPage();
+      if (id.startsWith('overstay:')) void browser.runtime.openOptionsPage();
     });
 
     browser.runtime.onInstalled.addListener(async ({ reason }) => {

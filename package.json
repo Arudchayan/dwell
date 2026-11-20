@@ -1,17 +1,17 @@
 {
-  "name": "dwell",
-  "version": "0.1.0",
+  "name": "overstay",
+  "version": "0.1.1",
   "private": true,
-  "description": "Know where your time goes. Decide where it stays. A private, local-only browser extension that tracks time per website and enforces daily limits.",
+  "description": "Know where your time goes, and when you've overstayed. A private, local-only browser extension that tracks time per website and enforces daily limits.",
   "license": "MIT",
   "type": "module",
   "author": "Arudchayan",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Arudchayan/dwell.git"
+    "url": "https://github.com/Arudchayan/overstay.git"
   },
-  "homepage": "https://github.com/Arudchayan/dwell#readme",
-  "bugs": "https://github.com/Arudchayan/dwell/issues",
+  "homepage": "https://github.com/Arudchayan/overstay#readme",
+  "bugs": "https://github.com/Arudchayan/overstay/issues",
   "engines": {
     "node": ">=20"
   },

@@ -10,7 +10,7 @@ const result = spawnSync('npx', ['playwright', 'test', store ? 'store-assets' : 
   env: {
     ...process.env,
     ...(store ? { STORE_ASSETS: '1' } : { SCREENSHOTS: '1' }),
-    DWELL_EXT_DIR: 'chrome-mv3',
+    OVERSTAY_EXT_DIR: 'chrome-mv3',
   },
 });
 process.exit(result.status ?? 1);

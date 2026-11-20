@@ -61,7 +61,7 @@ representative at an online or offline event.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement by opening a
 private report via GitHub Security Advisories
-(https://github.com/Arudchayan/dwell/security/advisories/new) or by contacting
+(https://github.com/Arudchayan/overstay/security/advisories/new) or by contacting
 the maintainer through their GitHub profile.
 All complaints will be reviewed and investigated promptly and fairly.
 

@@ -29,7 +29,7 @@ export interface Settings {
   idleSeconds: number;
   /** Keep counting while an audible tab is active even if the user is idle (videos, calls). */
   countAudibleWhenIdle: boolean;
-  /** Local hour (0-23) at which a new Dwell day begins. */
+  /** Local hour (0-23) at which a new tracking day begins. */
   resetHour: number;
   /** Grace period granted by typing the guilt sentence, in minutes (1-60). */
   graceMinutes: number;
@@ -46,9 +46,9 @@ export interface Settings {
   theme: 'system' | 'light' | 'dark';
 }
 
-/** Everything Dwell stores, as exported to / imported from a JSON backup. */
+/** Everything Overstay stores, as exported to / imported from a JSON backup. */
 export interface ExportBundle {
-  app: 'dwell';
+  app: 'overstay';
   schemaVersion: number;
   exportedAt: string;
   settings: Settings;

@@ -107,7 +107,7 @@ test('capture store assets', async ({ context, worker, extensionId }) => {
     280,
     `<div style="${BRAND_BG};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
       ${icon(104, 0).replace('fill="url(#bg)"', 'fill="#ffffff" fill-opacity="0.14"')}
-      <div style="font-size:46px;font-weight:800;letter-spacing:-1px">Dwell</div>
+      <div style="font-size:46px;font-weight:800;letter-spacing:-1px">Overstay</div>
       <div style="font-size:19px;opacity:.9">Know where your time goes.</div>
     </div>`,
   );
@@ -121,8 +121,8 @@ test('capture store assets', async ({ context, worker, extensionId }) => {
     `<div style="${BRAND_BG};height:100%;display:flex;align-items:center;justify-content:center;gap:64px">
       ${icon(220, 0).replace('fill="url(#bg)"', 'fill="#ffffff" fill-opacity="0.14"')}
       <div>
-        <div style="font-size:96px;font-weight:800;letter-spacing:-2px">Dwell</div>
-        <div style="font-size:38px;opacity:.9;margin-top:8px">Know where your time goes.<br>Decide where it stays.</div>
+        <div style="font-size:96px;font-weight:800;letter-spacing:-2px">Overstay</div>
+        <div style="font-size:38px;opacity:.9;margin-top:8px">Know where your time goes,<br>and when you've overstayed.</div>
       </div>
     </div>`,
   );

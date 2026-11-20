@@ -156,6 +156,10 @@ export async function onIdleChange(state: IdleState): Promise<void> {
 /** (Re)create the heartbeat and the daily reset alarm. */
 export async function scheduleAlarms(settings?: Settings, now = Date.now()): Promise<void> {
   const s = settings ?? (await store.getSettings());
+  // v0.1.0 shipped as "Dwell" with `dwell:` alarm names; drop them after an update.
+  for (const a of await browser.alarms.getAll()) {
+    if (a.name.startsWith('dwell:')) await browser.alarms.clear(a.name);
+  }
   await browser.alarms.create(ALARMS.heartbeat, { periodInMinutes: 0.5 });
   await browser.alarms.create(ALARMS.reset, { when: nextResetAt(now, s.resetHour) });
   browser.idle.setDetectionInterval(s.idleSeconds);

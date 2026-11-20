@@ -186,10 +186,10 @@ describe('limits and blocking', () => {
     await seedUsage('x.com', 50 * MINUTE);
     await tick('heartbeat', T0);
     await tick('heartbeat', T0 + SECOND);
-    expect(notifications.map((n) => n.id)).toEqual(['dwell:tw:eighty']);
+    expect(notifications.map((n) => n.id)).toEqual(['overstay:tw:eighty']);
     await seedUsage('x.com', 60 * MINUTE);
     await tick('heartbeat', T0 + 2 * SECOND);
-    expect(notifications.map((n) => n.id)).toEqual(['dwell:tw:eighty', 'dwell:tw:reached']);
+    expect(notifications.map((n) => n.id)).toEqual(['overstay:tw:eighty', 'overstay:tw:reached']);
   });
 
   it('respects the notifications setting', async () => {
@@ -275,17 +275,24 @@ describe('guilt-trip unlock', () => {
   it('schedules an alarm for the end of the grace period', async () => {
     const info = await getChallenge('tw', T0);
     await unlock('tw', info!.text!, T0);
-    const alarm = await browser.alarms.get('dwell:grace:tw');
+    const alarm = await browser.alarms.get('overstay:grace:tw');
     expect(alarm?.scheduledTime).toBe(T0 + 5 * MINUTE + 500);
   });
 });
 
 describe('maintenance', () => {
+  it('removes alarms left over from the Dwell-era build', async () => {
+    await browser.alarms.create('dwell:heartbeat', { periodInMinutes: 0.5 });
+    await scheduleAlarms(undefined, T0);
+    expect(await browser.alarms.get('dwell:heartbeat')).toBeUndefined();
+    expect(await browser.alarms.get('overstay:heartbeat')).toBeDefined();
+  });
+
   it('schedules the heartbeat and the daily reset alarm', async () => {
     await store.saveSettings({ resetHour: 4 });
     await scheduleAlarms(undefined, T0);
-    expect(await browser.alarms.get('dwell:heartbeat')).toBeDefined();
-    const reset = await browser.alarms.get('dwell:reset');
+    expect(await browser.alarms.get('overstay:heartbeat')).toBeDefined();
+    const reset = await browser.alarms.get('overstay:reset');
     expect(reset?.scheduledTime).toBe(new Date(2026, 10, 21, 4).getTime());
   });
 

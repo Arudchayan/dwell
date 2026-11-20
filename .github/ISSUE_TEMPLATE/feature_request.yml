@@ -32,7 +32,7 @@ body:
     id: privacy
     attributes:
       label: Privacy check
-      description: Dwell keeps all data local and makes no network requests. Please confirm that your idea fits this.
+      description: Overstay keeps all data local and makes no network requests. Please confirm that your idea fits this.
       options:
         - label: My proposal does not require sending data off the device or storing URLs or browsing history.
           required: true

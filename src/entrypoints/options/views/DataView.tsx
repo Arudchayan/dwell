@@ -23,12 +23,16 @@ export function DataView() {
 
   const exportJson = async () => {
     const bundle = await exportAll();
-    download(`dwell-backup-${stamp()}.json`, JSON.stringify(bundle, null, 2), 'application/json');
+    download(
+      `overstay-backup-${stamp()}.json`,
+      JSON.stringify(bundle, null, 2),
+      'application/json',
+    );
   };
 
   const exportCsv = async () => {
     const bundle = await exportAll();
-    download(`dwell-usage-${stamp()}.csv`, toCsv(bundle.usage), 'text/csv');
+    download(`overstay-usage-${stamp()}.csv`, toCsv(bundle.usage), 'text/csv');
   };
 
   const onImport = async (file: File | undefined) => {
@@ -67,7 +71,7 @@ export function DataView() {
         <div>
           <h1>Your data</h1>
           <p class="muted">
-            Everything Dwell knows is stored in this browser only. It never leaves your device
+            Everything Overstay knows is stored in this browser only. It never leaves your device
             unless you export it.
           </p>
         </div>
@@ -101,7 +105,7 @@ export function DataView() {
 
       <section class="card stack">
         <h2>Import</h2>
-        <p class="muted">Restore a Dwell backup. This replaces everything currently stored.</p>
+        <p class="muted">Restore an Overstay backup. This replaces everything currently stored.</p>
         <label class="btn" style={{ alignSelf: 'flex-start' }}>
           Choose backup file…
           <input

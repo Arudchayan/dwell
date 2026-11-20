@@ -2,7 +2,7 @@
  * Read the block page's query string. Two formats reach it:
  *  - `?limit=<id>&raw=<url>` from declarativeNetRequest redirects, where the
  *    original URL is appended unencoded and therefore must be the last parameter;
- *  - `?limit=<id>&url=<encoded url>` when Dwell redirects an already-open tab.
+ *  - `?limit=<id>&url=<encoded url>` when Overstay redirects an already-open tab.
  * Only http(s) URLs are returned, so the page can never be used to open
  * `javascript:` or other unexpected schemes.
  */

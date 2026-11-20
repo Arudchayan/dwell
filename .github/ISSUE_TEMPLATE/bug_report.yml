@@ -1,24 +1,24 @@
 name: Bug report
-description: Report a problem with Dwell
+description: Report a problem with Overstay
 title: '[Bug]: '
 labels: ['bug']
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to report a bug. Please do not include personal browsing URLs. Dwell does not store them, so describing the affected domain is enough.
+        Thanks for taking the time to report a bug. Please do not include personal browsing URLs. Overstay does not store them, so describing the affected domain is enough.
   - type: input
     id: browser
     attributes:
       label: Browser and version
-      description: Where you are running Dwell, for example Chrome 131, Edge 131, Brave 1.73, or Firefox 132.
+      description: Where you are running Overstay, for example Chrome 131, Edge 131, Brave 1.73, or Firefox 132.
       placeholder: Chrome 131
     validations:
       required: true
   - type: input
-    id: dwell-version
+    id: overstay-version
     attributes:
-      label: Dwell version
+      label: Overstay version
       description: Shown on the extensions page (chrome://extensions, edge://extensions, brave://extensions, or about:addons).
       placeholder: 0.1.0
     validations:
@@ -29,7 +29,7 @@ body:
       label: Steps to reproduce
       description: The smallest set of steps that reproduces the problem.
       placeholder: |
-        1. Open the Dwell dashboard
+        1. Open the Overstay dashboard
         2. Create a limit for example.com
         3. ...
     validations:

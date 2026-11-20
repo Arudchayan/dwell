@@ -17,7 +17,7 @@ function keyOf(d: Date): DayKey {
 }
 
 /**
- * The "Dwell day" a timestamp belongs to. With `resetHour = 4`, 02:00 on the 5th
+ * The "tracking day" a timestamp belongs to. With `resetHour = 4`, 02:00 on the 5th
  * still counts towards the 4th, so night owls are not reset at midnight.
  */
 export function dayKey(ts: number, resetHour = 0): DayKey {

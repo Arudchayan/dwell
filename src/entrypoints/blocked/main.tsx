@@ -52,7 +52,7 @@ function BlockedPage() {
       return;
     }
     const [res, settings] = await Promise.all([
-      send({ type: 'dwell:challenge', limitId }),
+      send({ type: 'overstay:challenge', limitId }),
       getSettings(),
     ]);
     setInfo(res);
@@ -68,7 +68,7 @@ function BlockedPage() {
   }, []);
 
   useEffect(() => {
-    document.title = info ? `${info.limitName} is blocked — Dwell` : 'Blocked — Dwell';
+    document.title = info ? `${info.limitName} is blocked — Overstay` : 'Blocked — Overstay';
   }, [info]);
 
   // Anti-paste: attach native listeners so we see the real `inputType` and `isTrusted`.
@@ -123,7 +123,7 @@ function BlockedPage() {
   const submit = async () => {
     if (!progress?.complete || busy) return;
     setBusy(true);
-    const res = await send({ type: 'dwell:unlock', limitId: info.limitId, typed });
+    const res = await send({ type: 'overstay:unlock', limitId: info.limitId, typed });
     setBusy(false);
     if (res.ok) {
       if (original) location.replace(original);
@@ -144,7 +144,7 @@ function BlockedPage() {
       <div class="blocked-card card stack" style={{ gap: 20 }}>
         <div class="row">
           <Logo size={28} />
-          <span class="subtle">Dwell</span>
+          <span class="subtle">Overstay</span>
         </div>
         <div class="stack" style={{ gap: 8 }}>
           <h1>Time's up for {info.limitName} today.</h1>

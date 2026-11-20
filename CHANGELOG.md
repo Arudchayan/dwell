@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-11-20
+## [0.1.1] - 2026-11-20
+
+### Changed
+
+- Renamed the project from **Dwell** to **Overstay**, because another extension called "Dwell" already exists on the Chrome Web Store. The GitHub repository moved to `Arudchayan/overstay` (the old URL redirects).
+- Backups exported from Dwell 0.1.0 can still be imported.
+
+## [0.1.0] - 2026-11-20 (released as "Dwell")
 
 ### Added
 
@@ -23,7 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Privacy
 
-- All data is stored locally in `browser.storage.local`. Dwell makes no network requests, includes no analytics, loads no remote code, and does not require an account.
+- All data is stored locally in `browser.storage.local`. Overstay makes no network requests, includes no analytics, loads no remote code, and does not require an account.
 
-[Unreleased]: https://github.com/Arudchayan/dwell/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/Arudchayan/dwell/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Arudchayan/overstay/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Arudchayan/overstay/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/Arudchayan/overstay/releases/tag/v0.1.0

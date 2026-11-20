@@ -8,7 +8,7 @@ import path from 'node:path';
 const EXTENSION_PATH = path.resolve(
   import.meta.dirname,
   '../../.output',
-  process.env.DWELL_EXT_DIR ?? 'chrome-mv3-e2e',
+  process.env.OVERSTAY_EXT_DIR ?? 'chrome-mv3-e2e',
 );
 
 /** Fake sites served by a local server. `.test` domains are never on HSTS lists. */
@@ -49,7 +49,7 @@ export const test = base.extend<Fixtures, { server: Server }>({
 
   context: async ({ server }, use) => {
     const port = (server.address() as AddressInfo).port;
-    const userDataDir = mkdtempSync(path.join(tmpdir(), 'dwell-e2e-'));
+    const userDataDir = mkdtempSync(path.join(tmpdir(), 'overstay-e2e-'));
     const context = await chromium.launchPersistentContext(userDataDir, {
       channel: 'chromium',
       headless: !process.env.HEADED,

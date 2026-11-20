@@ -286,7 +286,7 @@ describe('parseImport and buildExport', () => {
     const bundle = buildExport(settings, [], {}, {});
     expect(typeof bundle.exportedAt).toBe('string');
     expect(Number.isNaN(Date.parse(bundle.exportedAt))).toBe(false);
-    expect(bundle.app).toBe('dwell');
+    expect(bundle.app).toBe('overstay');
     expect(bundle.schemaVersion).toBe(SCHEMA_VERSION);
   });
 
@@ -298,7 +298,7 @@ describe('parseImport and buildExport', () => {
   it('throws ImportError for a file from another app', () => {
     const err = catchError(() => parseImport(JSON.stringify({ app: 'other', schemaVersion: 1 })));
     expect(err).toBeInstanceOf(ImportError);
-    expect((err as Error).message).toMatch(/does not look like a Dwell backup/);
+    expect((err as Error).message).toMatch(/does not look like an Overstay backup/);
   });
 
   it('throws ImportError for JSON that is not an object', () => {
@@ -308,22 +308,24 @@ describe('parseImport and buildExport', () => {
 
   it('throws ImportError for a newer schema version', () => {
     const err = catchError(() =>
-      parseImport(JSON.stringify({ app: 'dwell', schemaVersion: SCHEMA_VERSION + 1 })),
+      parseImport(JSON.stringify({ app: 'overstay', schemaVersion: SCHEMA_VERSION + 1 })),
     );
     expect(err).toBeInstanceOf(ImportError);
     expect((err as Error).message).toMatch(/newer version/);
   });
 
   it('throws ImportError for version 0 and missing versions', () => {
-    const zero = catchError(() => parseImport(JSON.stringify({ app: 'dwell', schemaVersion: 0 })));
+    const zero = catchError(() =>
+      parseImport(JSON.stringify({ app: 'overstay', schemaVersion: 0 })),
+    );
     expect(zero).toBeInstanceOf(ImportError);
     expect((zero as Error).message).toMatch(/Unknown backup version/);
-    expect(() => parseImport(JSON.stringify({ app: 'dwell' }))).toThrow(ImportError);
+    expect(() => parseImport(JSON.stringify({ app: 'overstay' }))).toThrow(ImportError);
   });
 
   it('drops invalid day keys and sanitizes the rest', () => {
     const raw = {
-      app: 'dwell',
+      app: 'overstay',
       schemaVersion: 1,
       usage: {
         '2026-02-30': { 'x.com': hoursWith({ 1: 5 }) },
@@ -340,7 +342,7 @@ describe('parseImport and buildExport', () => {
   });
 
   it('tolerates missing usage/unlocks and fills in exportedAt', () => {
-    const out = parseImport(JSON.stringify({ app: 'dwell', schemaVersion: 1 }));
+    const out = parseImport(JSON.stringify({ app: 'overstay', schemaVersion: 1 }));
     expect(out.usage).toEqual({});
     expect(out.unlocks).toEqual({});
     expect(typeof out.exportedAt).toBe('string');
@@ -414,3 +416,10 @@ function catchError(fn: () => unknown): unknown {
   }
   return undefined;
 }
+
+describe('backups from the Dwell era', () => {
+  it('imports backups exported by v0.1.0, when the project was called Dwell', () => {
+    const out = parseImport(JSON.stringify({ app: 'dwell', schemaVersion: 1, limits: [] }));
+    expect(out.app).toBe('overstay');
+  });
+});

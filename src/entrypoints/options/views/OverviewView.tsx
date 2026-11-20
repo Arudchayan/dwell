@@ -126,7 +126,7 @@ export function OverviewView() {
         <div class="card empty">
           <p>No activity recorded in this period yet.</p>
           <p class="subtle">
-            Browse as usual — Dwell counts time while a tab is active and you're around.
+            Browse as usual — Overstay counts time while a tab is active and you're around.
           </p>
         </div>
       ) : (

@@ -157,13 +157,16 @@ export function parseImport(json: string): ExportBundle {
   } catch {
     throw new ImportError('The file is not valid JSON.');
   }
-  if (!isObject(data) || data.app !== 'dwell') {
-    throw new ImportError('This does not look like a Dwell backup.');
+  // 'dwell' is the project's former name (v0.1.0); accept those backups too.
+  if (!isObject(data) || (data.app !== 'overstay' && data.app !== 'dwell')) {
+    throw new ImportError('This does not look like an Overstay backup.');
   }
   const version = Number(data.schemaVersion);
   if (!Number.isInteger(version) || version < 1) throw new ImportError('Unknown backup version.');
   if (version > SCHEMA_VERSION) {
-    throw new ImportError('This backup was made by a newer version of Dwell. Please update first.');
+    throw new ImportError(
+      'This backup was made by a newer version of Overstay. Please update first.',
+    );
   }
   const migrated = migrate(data, version);
   const usage: Record<DayKey, DayUsage> = {};
@@ -179,7 +182,7 @@ export function parseImport(json: string): ExportBundle {
     }
   }
   return {
-    app: 'dwell',
+    app: 'overstay',
     schemaVersion: SCHEMA_VERSION,
     exportedAt:
       typeof migrated.exportedAt === 'string' ? migrated.exportedAt : new Date().toISOString(),
@@ -198,7 +201,7 @@ export function buildExport(
   now = Date.now(),
 ): ExportBundle {
   return {
-    app: 'dwell',
+    app: 'overstay',
     schemaVersion: SCHEMA_VERSION,
     exportedAt: new Date(now).toISOString(),
     settings,

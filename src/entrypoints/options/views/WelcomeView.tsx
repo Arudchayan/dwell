@@ -43,15 +43,17 @@ export function WelcomeView() {
       <div class="row">
         <Logo size={44} />
         <div>
-          <h1>Welcome to Dwell</h1>
-          <p class="muted">Know where your time goes. Decide where it stays.</p>
+          <h1>Welcome to Overstay</h1>
+          <p class="muted">Know where your time goes, and when you've overstayed.</p>
         </div>
       </div>
 
       <section class="card stack">
         <h2>How it works</h2>
         <ol class="stack muted" style={{ margin: 0, paddingLeft: 18, gap: 6 }}>
-          <li>Dwell counts the time a site is in your active tab while you're at the keyboard.</li>
+          <li>
+            Overstay counts the time a site is in your active tab while you're at the keyboard.
+          </li>
           <li>Give the sites that eat your day a daily allowance.</li>
           <li>
             When it runs out the site is blocked. Getting back in means typing an honest sentence

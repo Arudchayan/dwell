@@ -44,7 +44,7 @@ describe('dayKey', () => {
     expect(dayKey(at(2026, 11, 5, 2, 0), 4)).toBe('2026-11-04');
   });
 
-  it('starts the new Dwell day exactly at the reset hour', () => {
+  it('starts the new tracking day exactly at the reset hour', () => {
     expect(dayKey(at(2026, 11, 5, 4, 0), 4)).toBe('2026-11-05');
     expect(dayKey(at(2026, 11, 5, 3, 59, 59), 4)).toBe('2026-11-04');
   });

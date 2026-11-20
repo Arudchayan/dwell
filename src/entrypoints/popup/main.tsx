@@ -25,7 +25,7 @@ function Popup() {
   useEffect(() => {
     void (async () => {
       // Flush the running segment so the numbers are up to date.
-      await send({ type: 'dwell:flush' }).catch(() => undefined);
+      await send({ type: 'overstay:flush' }).catch(() => undefined);
       const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
       setDomain(domainFromUrl(tab?.url));
     })();
@@ -63,7 +63,7 @@ function Popup() {
       <header class="spread">
         <div class="row">
           <Logo size={22} />
-          <strong>Dwell</strong>
+          <strong>Overstay</strong>
         </div>
         <button
           class="btn ghost icon-btn"

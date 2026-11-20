@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     const label = NAV.find((n) => n.route === loc.route)?.label ?? 'Welcome';
-    document.title = `${label} — Dwell`;
+    document.title = `${label} — Overstay`;
   }, [loc.route]);
 
   return (
@@ -42,7 +42,7 @@ function App() {
       <aside class="sidebar">
         <a class="brand row" href="#/overview">
           <Logo size={28} />
-          <span>Dwell</span>
+          <span>Overstay</span>
         </a>
         <nav aria-label="Main">
           {NAV.map((n) => (
@@ -60,7 +60,7 @@ function App() {
         <p class="subtle sidebar-foot">
           100% local. Nothing leaves your browser.
           <br />
-          <a href="https://github.com/Arudchayan/dwell" target="_blank" rel="noreferrer">
+          <a href="https://github.com/Arudchayan/overstay" target="_blank" rel="noreferrer">
             Open source on GitHub
           </a>
         </p>

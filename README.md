@@ -1,13 +1,13 @@
-# Dwell
+# Overstay
 
-> Know where your time goes. Decide where it stays.
+> Know where your time goes, and when you've overstayed.
 
-[![CI](https://github.com/Arudchayan/dwell/actions/workflows/ci.yml/badge.svg)](https://github.com/Arudchayan/dwell/actions/workflows/ci.yml)
+[![CI](https://github.com/Arudchayan/overstay/actions/workflows/ci.yml/badge.svg)](https://github.com/Arudchayan/overstay/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Dwell is a browser extension that measures how much active time you spend on each website, shows you where it goes, and lets you set daily limits per site or group of sites. All data stays in your browser.
+Overstay is a browser extension that measures how much active time you spend on each website, shows you where it goes, and lets you set daily limits per site or group of sites. All data stays in your browser.
 
-Dwell runs in Chrome, Edge, and Brave (Manifest V3) and in Firefox 140 and later. It is built with WXT, TypeScript, Preact, and Chart.js.
+Overstay runs in Chrome, Edge, and Brave (Manifest V3) and in Firefox 140 and later. It is built with WXT, TypeScript, Preact, and Chart.js.
 
 ## Features
 
@@ -20,7 +20,7 @@ Dwell runs in Chrome, Edge, and Brave (Manifest V3) and in Firefox 140 and later
 - **Configurable day reset.** Choose the hour your day resets (default: midnight).
 - **Data control.** Export and import your data as JSON, export it as CSV, or delete all data with one button. Data is kept for 365 days by default, which you can change.
 
-Dwell does not store browsing history or URLs. It keeps only the number of seconds spent per domain in each hour of the day.
+Overstay does not store browsing history or URLs. It keeps only the number of seconds spent per domain in each hour of the day.
 
 ## Screenshots
 
@@ -42,23 +42,23 @@ Store listings for the Chrome Web Store and Firefox Add-ons are coming soon.
 
 ### Chrome, Edge, or Brave (from GitHub Releases)
 
-1. Download the Chromium `.zip` file from the [latest release](https://github.com/Arudchayan/dwell/releases/latest) and unzip it.
+1. Download the Chromium `.zip` file from the [latest release](https://github.com/Arudchayan/overstay/releases/latest) and unzip it.
 2. Open `chrome://extensions` (or `edge://extensions` or `brave://extensions`).
 3. Turn on **Developer mode**.
 4. Click **Load unpacked** and select the unzipped folder.
 
 ### Firefox 140 or later (from GitHub Releases)
 
-1. Download the Firefox `.zip` file from the [latest release](https://github.com/Arudchayan/dwell/releases/latest) and unzip it.
+1. Download the Firefox `.zip` file from the [latest release](https://github.com/Arudchayan/overstay/releases/latest) and unzip it.
 2. Open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on...** and select the `manifest.json` file in the unzipped folder.
 
-Firefox removes temporary add-ons when it restarts, so you will need to load Dwell again after a restart.
+Firefox removes temporary add-ons when it restarts, so you will need to load Overstay again after a restart.
 
 ## How limits and unlocks work
 
 1. Create a limit for a site or a group of sites, with a daily duration and optional weekdays.
-2. Dwell warns you at 80% of the limit and again with 5 minutes left.
+2. Overstay warns you at 80% of the limit and again with 5 minutes left.
 3. When the limit is reached, visits to the site are redirected to the block page.
 4. To continue, type the sentence shown on the block page exactly. Paste and drop are disabled. The unlock grants a short grace period (default 5 minutes).
 5. Each further unlock on the same day requires a longer sentence.
@@ -66,13 +66,13 @@ Firefox removes temporary add-ons when it restarts, so you will need to load Dwe
 
 ## Privacy
 
-Dwell is 100% local. It stores everything in `browser.storage.local` on your device. It makes no network requests, includes no analytics, loads no remote code, and has no accounts.
+Overstay is 100% local. It stores everything in `browser.storage.local` on your device. It makes no network requests, includes no analytics, loads no remote code, and has no accounts.
 
 The full privacy policy, including a permissions table and instructions for deleting your data, is in [PRIVACY.md](PRIVACY.md).
 
 ## Development
 
-Dwell requires Node.js 20 or later.
+Overstay requires Node.js 20 or later.
 
 ```sh
 npm install
@@ -137,4 +137,4 @@ Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before
 
 ## License
 
-Dwell is released under the [MIT License](LICENSE). Copyright (c) 2026 Arudchayan.
+Overstay is released under the [MIT License](LICENSE). Copyright (c) 2026 Arudchayan.

@@ -172,7 +172,7 @@ test('a new day lifts the block', async ({ context, worker, site, extensionId })
   await expectBlocked(page, extensionId);
 
   // Moving the day boundary to the next hour means "now" belongs to the
-  // previous Dwell day, which has no usage yet — exactly what a reset does.
+  // previous tracking day, which has no usage yet — exactly what a reset does.
   await setSettings(worker, { resetHour: hour + 1 });
   const fresh = await context.newPage();
   await fresh.goto(site('distract.test', '/again'));
@@ -248,7 +248,7 @@ test('dashboard: charts, limit editor and data export/import', async ({
   const downloadPromise = dash.waitForEvent('download');
   await dash.getByRole('button', { name: 'Download backup (JSON)' }).click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toMatch(/^dwell-backup-\d{4}-\d{2}-\d{2}\.json$/);
+  expect(download.suggestedFilename()).toMatch(/^overstay-backup-\d{4}-\d{2}-\d{2}\.json$/);
   const backupPath = await download.path();
 
   await dash.getByLabel('Type delete to confirm').fill('delete');

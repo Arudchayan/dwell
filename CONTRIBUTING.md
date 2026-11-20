@@ -1,6 +1,6 @@
-# Contributing to Dwell
+# Contributing to Overstay
 
-Thanks for your interest in improving Dwell. This guide covers how to set up the project, what we expect from changes, and how to submit them.
+Thanks for your interest in improving Overstay. This guide covers how to set up the project, what we expect from changes, and how to submit them.
 
 By participating, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 
@@ -9,13 +9,13 @@ By participating, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md
 Requirements: Node.js 20 or later and npm.
 
 ```sh
-git clone https://github.com/Arudchayan/dwell.git
-cd dwell
+git clone https://github.com/Arudchayan/overstay.git
+cd overstay
 npm install
 npm run dev
 ```
 
-`npm run dev` builds Dwell for Chrome and watches for changes. Load the output from `.output/chrome-mv3` as an unpacked extension (`chrome://extensions`, Developer mode). For Firefox, use `npm run dev:firefox` and load the add-on from `about:debugging`.
+`npm run dev` builds Overstay for Chrome and watches for changes. Load the output from `.output/chrome-mv3` as an unpacked extension (`chrome://extensions`, Developer mode). For Firefox, use `npm run dev:firefox` and load the add-on from `about:debugging`.
 
 ## Scripts
 
@@ -31,7 +31,7 @@ npm run dev
 ## Project principles
 
 - **Keep `src/core` pure.** Code in `src/core` (domain, tracker, limits, sentences, stats, schema) must not import browser extension APIs, the DOM, or Preact. Pass time, storage, and other side effects in as arguments so the logic can be unit tested without a browser.
-- **Stay local.** Dwell makes no network requests and has no analytics. Do not add code that sends data off the device, loads remote code, or stores URLs or browsing history. Changes to what is stored must be reflected in [PRIVACY.md](PRIVACY.md).
+- **Stay local.** Overstay makes no network requests and has no analytics. Do not add code that sends data off the device, loads remote code, or stores URLs or browsing history. Changes to what is stored must be reflected in [PRIVACY.md](PRIVACY.md).
 - **Keep permissions minimal.** Do not add a manifest permission without a clear justification in the pull request. Explain why the feature cannot work without it.
 
 ## Commit messages
@@ -83,7 +83,7 @@ The unlock sentences are defined in `src/core/sentences`. When you add or edit a
 
 ## Reporting bugs and requesting features
 
-Use the issue templates. Do not include personal browsing URLs in bug reports. Dwell does not store them, so describing the domain is enough. For security vulnerabilities, do not open a public issue. Follow [SECURITY.md](SECURITY.md).
+Use the issue templates. Do not include personal browsing URLs in bug reports. Overstay does not store them, so describing the domain is enough. For security vulnerabilities, do not open a public issue. Follow [SECURITY.md](SECURITY.md).
 
 ## License
 

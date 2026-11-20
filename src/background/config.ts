@@ -11,9 +11,9 @@ export const IS_E2E = import.meta.env.MODE === 'e2e';
 export const HEARTBEAT_MINUTES = 0.5;
 
 export const ALARMS = {
-  heartbeat: 'dwell:heartbeat',
-  reset: 'dwell:reset',
-  grace: 'dwell:grace',
+  heartbeat: 'overstay:heartbeat',
+  reset: 'overstay:reset',
+  grace: 'overstay:grace',
 } as const;
 
 export function graceDurationMs(graceMinutes: number): number {

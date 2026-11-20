@@ -48,7 +48,7 @@ export function activeDomain(
   return domain;
 }
 
-/** Split `[start, end)` into per-hour chunks, assigning each to its Dwell day. */
+/** Split `[start, end)` into per-hour chunks, assigning each to its tracking day. */
 export function splitInterval(
   domain: string,
   start: number,
