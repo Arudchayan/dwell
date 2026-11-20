@@ -95,6 +95,7 @@ npm run dev
 | `npm run test:coverage` | Run unit tests with coverage                              |
 | `npm run test:e2e`      | Build the e2e target and run Playwright tests in Chromium |
 | `npm run screenshots`   | Regenerate `docs/screenshots` from demo data              |
+| `npm run store-assets`  | Regenerate Chrome Web Store images in `docs/store/chrome` |
 
 `npm run dev` opens a fresh browser profile with the extension loaded and reloads it on changes. To try a production build in your own browser, load `.output/chrome-mv3` (or `.output/firefox-mv3`) as described in [Installation](#installation).
 
