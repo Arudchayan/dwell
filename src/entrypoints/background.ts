@@ -32,8 +32,8 @@ export default defineBackground({
 
     browser.storage.onChanged.addListener((changes, area) => {
       if (area !== 'local') return;
-      if ('settings' in changes) void scheduleAlarms();
-      if ('limits' in changes || 'settings' in changes || 'grace' in changes) void tick('storage');
+      if ('settings' in changes) void scheduleAlarms().then(() => tick('storage'));
+      else if ('limits' in changes || 'grace' in changes) void tick('storage');
     });
 
     browser.runtime.onMessage.addListener((msg: unknown) => {
@@ -63,9 +63,7 @@ export default defineBackground({
 
     void (async () => {
       await store.ensureSchema();
-      await scheduleAlarms();
-      const settings = await store.getSettings();
-      await store.setIdleState(await browser.idle.queryState(settings.idleSeconds));
+      await scheduleAlarms(); // also refreshes the idle state
       await tick('startup');
     })();
 

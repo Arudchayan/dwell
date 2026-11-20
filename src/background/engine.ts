@@ -159,6 +159,9 @@ export async function scheduleAlarms(settings?: Settings, now = Date.now()): Pro
   await browser.alarms.create(ALARMS.heartbeat, { periodInMinutes: 0.5 });
   await browser.alarms.create(ALARMS.reset, { when: nextResetAt(now, s.resetHour) });
   browser.idle.setDetectionInterval(s.idleSeconds);
+  // The threshold may have changed: refresh the stored state right away instead
+  // of waiting for the next onStateChanged event.
+  await store.setIdleState(await browser.idle.queryState(s.idleSeconds));
 }
 
 /** What the block page needs to render the challenge for a limit. */
