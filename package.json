@@ -1,6 +1,6 @@
 {
   "name": "overstay",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Know where your time goes, and when you've overstayed. A private, local-only browser extension that tracks time per website and enforces daily limits.",
   "license": "MIT",

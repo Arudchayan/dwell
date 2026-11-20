@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-20
+
 ### Changed
 
 - New logo: an old-style serif “O” in ink on paper, with a clay dot that has slipped just past its edge. Toolbar icons, screenshots and store artwork updated.
@@ -48,7 +50,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - All data is stored locally in `browser.storage.local`. Overstay makes no network requests, includes no analytics, loads no remote code, and does not require an account.
 
-[Unreleased]: https://github.com/Arudchayan/overstay/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Arudchayan/overstay/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/Arudchayan/overstay/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/Arudchayan/overstay/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/Arudchayan/overstay/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Arudchayan/overstay/releases/tag/v0.1.0
