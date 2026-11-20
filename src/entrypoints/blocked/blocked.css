@@ -1,0 +1,64 @@
+.blocked {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, var(--accent-soft), transparent 70%), var(--bg);
+}
+
+.blocked-card {
+  width: 100%;
+  max-width: 640px;
+  padding: 32px;
+}
+
+.blocked h1 {
+  font-size: 28px;
+}
+
+.idea {
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 14px;
+}
+.idea p {
+  font-size: 15px;
+}
+
+.challenge .target {
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.target .done {
+  color: var(--ok);
+}
+.target .wrong {
+  background: var(--danger);
+  color: #fff;
+  border-radius: 3px;
+}
+.target .todo {
+  color: var(--text);
+}
+
+.challenge textarea {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.challenge textarea.has-error {
+  border-color: var(--danger);
+}
+
+@media (max-width: 480px) {
+  .blocked-card {
+    padding: 20px;
+  }
+  .blocked h1 {
+    font-size: 22px;
+  }
+}
