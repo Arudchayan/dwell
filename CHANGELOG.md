@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-20
+
 ### Changed
 
 - New "calm paper" design: warm paper and ink colours with one teal accent, serif headings (Newsreader) and a humanist sans (Instrument Sans), hairline rules instead of cards. Fonts are bundled, so nothing is loaded from the network.
@@ -42,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - All data is stored locally in `browser.storage.local`. Overstay makes no network requests, includes no analytics, loads no remote code, and does not require an account.
 
-[Unreleased]: https://github.com/Arudchayan/overstay/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/Arudchayan/overstay/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Arudchayan/overstay/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/Arudchayan/overstay/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Arudchayan/overstay/releases/tag/v0.1.0
