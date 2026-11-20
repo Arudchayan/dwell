@@ -17,8 +17,8 @@ jobs:
     name: check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -31,15 +31,15 @@ jobs:
     name: e2e
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: xvfb-run -a npm run test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-report
@@ -50,8 +50,8 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -59,7 +59,9 @@ jobs:
       - run: npm run zip
       - run: npm run zip:firefox
       - run: npx web-ext lint --source-dir .output/firefox-mv3
-      - uses: actions/upload-artifact@v4
+      - run: mkdir -p dist && cp .output/*.zip dist/
+      - uses: actions/upload-artifact@v7
         with:
           name: extension-zips
-          path: .output/*.zip
+          path: dist/*.zip
+          if-no-files-found: error

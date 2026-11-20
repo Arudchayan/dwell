@@ -13,16 +13,23 @@ jobs:
     name: release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
       - run: npm test
+      - name: Check the tag matches package.json
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
       - run: npm run zip
       - run: npm run zip:firefox
-      - uses: softprops/action-gh-release@v2
+      - run: npx web-ext lint --source-dir .output/firefox-mv3
+      # `.output` is a hidden directory, which upload tooling skips by default.
+      - run: mkdir -p dist && cp .output/*.zip dist/ && ls -la dist
+      - uses: softprops/action-gh-release@v3
         with:
-          files: .output/*.zip
+          files: dist/*.zip
           generate_release_notes: true

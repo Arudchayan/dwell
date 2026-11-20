@@ -10,3 +10,4 @@ web-ext-artifacts/
 Thumbs.db
 .env*
 !.env.example
+dist/
