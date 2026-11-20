@@ -46,7 +46,7 @@
     "@testing-library/preact": "^3.2.6",
     "@vitest/coverage-v8": "^4.1.12",
     "@webext-core/fake-browser": "^2.0.1",
-    "eslint": "^9.39.5",
+    "eslint": "^10.15.0",
     "globals": "^17.14.0",
     "jsdom": "^31.0.1",
     "prettier": "^3.10.1",
