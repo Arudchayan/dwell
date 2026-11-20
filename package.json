@@ -32,7 +32,8 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "npm run build:e2e && playwright test",
     "lint:firefox": "npm run build:firefox && web-ext lint --source-dir .output/firefox-mv3",
-    "screenshots": "npm run build && node scripts/screenshots.mjs"
+    "screenshots": "npm run build && node scripts/screenshots.mjs",
+    "store-assets": "npm run build && node scripts/screenshots.mjs store"
   },
   "dependencies": {
     "chart.js": "^4.6.1",

@@ -1,10 +1,12 @@
 # Store listing copy
 
-Shared copy for the Chrome Web Store and Firefox Add-ons (AMO). Keep this file in sync with the README and PRIVACY.md.
+Shared copy for the Chrome Web Store and Firefox Add-ons (AMO). Keep this file in sync with the README and PRIVACY.md. The Chrome Web Store field-by-field guide and submission checklist are in [chrome-web-store.md](chrome-web-store.md).
 
 ## Name
 
-Dwell: Website Time Tracker and Limits
+Dwell — Website Time Tracker & Limits
+
+This comes from `name` in `wxt.config.ts`; the stores read it from the manifest.
 
 ## Short description (132 characters maximum)
 
