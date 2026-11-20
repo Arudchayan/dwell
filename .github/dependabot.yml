@@ -9,6 +9,21 @@ updates:
         update-types:
           - minor
           - patch
+      # These pin each other as peers, so a major bump must land together.
+      vitest:
+        patterns:
+          - vitest
+          - '@vitest/*'
+      eslint:
+        patterns:
+          - eslint
+          - '@eslint/js'
+    ignore:
+      # typescript-eslint does not support TypeScript 7 yet
+      # (typescript-eslint/typescript-eslint#10940). Remove once it does.
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /
