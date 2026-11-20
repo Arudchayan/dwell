@@ -10,6 +10,7 @@ export default defineConfig({
     excludeSources: [
       'coverage/**',
       'docs/screenshots/**',
+      'docs/store/chrome/**',
       'playwright-report/**',
       'test-results/**',
     ],
