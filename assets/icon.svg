@@ -1,7 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Deep teal tile, paper-coloured clock face three quarters "used". -->
-  <rect x="4" y="4" width="120" height="120" rx="28" fill="#1f6a6d"/>
-  <circle cx="64" cy="64" r="35" fill="none" stroke="#f6f1e7" stroke-opacity="0.26" stroke-width="11"/>
-  <path d="M64 29 A35 35 0 1 1 29 64" fill="none" stroke="#f6f1e7" stroke-width="11" stroke-linecap="round"/>
-  <circle cx="64" cy="64" r="8.5" fill="#f6f1e7"/>
+  <!--
+    Overstay mark: an old-style serif "O" in ink on a paper tile. The counter is
+    tilted on a diagonal stress, as in Newsreader. A clay dot has slipped just
+    past the letter's edge: the moment you stayed over.
+  -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#f6f1e7"/>
+  <rect x="4.75" y="4.75" width="118.5" height="118.5" rx="27.25" fill="none" stroke="#2b2520" stroke-opacity="0.12" stroke-width="1.5"/>
+  <ellipse cx="60" cy="66" rx="36" ry="38.5" fill="#2b2520"/>
+  <ellipse cx="60.5" cy="66" rx="23.5" ry="31" fill="#f6f1e7" transform="rotate(-17 60.5 66)"/>
+  <circle cx="99" cy="30" r="9.5" fill="#b0573a"/>
 </svg>
