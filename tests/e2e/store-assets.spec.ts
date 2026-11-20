@@ -16,8 +16,6 @@ const ICON_SVG = readFileSync(path.join(ROOT, 'assets/icon.svg'), 'utf8');
 
 test.skip(!process.env.STORE_ASSETS, 'set STORE_ASSETS=1 to regenerate store assets');
 
-const FONT = `-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif`;
-
 /** Icon SVG at a given pixel size. `pad` adds transparent padding in icon units. */
 function icon(size: number, pad = 0) {
   return ICON_SVG.replace('<svg ', `<svg width="${size}" height="${size}" `).replace(
@@ -26,16 +24,35 @@ function icon(size: number, pad = 0) {
   );
 }
 
-/** Render standalone HTML at an exact size and save it as an opaque PNG. */
-async function renderCard(page: Page, file: string, width: number, height: number, body: string) {
+/**
+ * Render HTML at an exact size and save it as an opaque PNG. It is drawn inside
+ * an extension page so the bundled fonts and design tokens are available.
+ */
+async function renderCard(
+  page: Page,
+  base: string,
+  file: string,
+  width: number,
+  height: number,
+  body: string,
+) {
   await page.setViewportSize({ width, height });
-  await page.setContent(
-    `<!doctype html><html><body style="margin:0;width:${width}px;height:${height}px;overflow:hidden;font-family:${FONT}">${body}</body></html>`,
+  await page.goto(`${base}/blocked.html`);
+  await page.evaluate(
+    async ([html, w, h]) => {
+      document.body.innerHTML = html as string;
+      document.body.style.cssText = `margin:0;width:${w}px;height:${h}px;overflow:hidden`;
+      await document.fonts.ready;
+    },
+    [body, width, height] as const,
   );
+  await page.waitForTimeout(200);
   await page.screenshot({ path: path.join(OUT, file) });
 }
 
-const BRAND_BG = 'background:linear-gradient(135deg,#6366f1 0%,#4338ca 100%);color:#fff';
+const PAPER = 'background:var(--paper);color:var(--ink)';
+const TITLE = 'font-family:var(--serif);font-weight:400;letter-spacing:-0.02em;line-height:1.05';
+const TAGLINE = 'font-family:var(--serif);font-style:italic;color:var(--ink-2);line-height:1.3';
 
 test('capture store assets', async ({ context, worker, extensionId }) => {
   await seed(worker);
@@ -43,11 +60,10 @@ test('capture store assets', async ({ context, worker, extensionId }) => {
   const page = await context.newPage();
   await page.setViewportSize({ width: 1280, height: 800 });
 
-  // 1. Overview (light).
-  await page.goto(`${base}/options.html#/overview`);
-  await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
-  await page.getByRole('button', { name: '30 days' }).click();
-  await page.waitForTimeout(400);
+  // 1. Today (light).
+  await page.goto(`${base}/options.html#/today`);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page.waitForTimeout(600);
   await page.screenshot({ path: path.join(OUT, 'screenshot-1-overview.png') });
 
   // 2. Block page with the typing challenge.
@@ -60,24 +76,30 @@ test('capture store assets', async ({ context, worker, extensionId }) => {
 
   // 3. Limits.
   await page.goto(`${base}/options.html#/limits`);
-  await expect(page.getByRole('heading', { name: 'Limits' })).toBeVisible();
-  await page.waitForTimeout(200);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page.waitForTimeout(600);
   await page.screenshot({ path: path.join(OUT, 'screenshot-3-limits.png') });
 
-  // 4. Overview (dark).
+  // 4. History (dark).
   await page.emulateMedia({ colorScheme: 'dark' });
-  await page.goto(`${base}/options.html#/overview`);
-  await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
+  await page.goto(`${base}/options.html#/history`);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.getByRole('button', { name: '30 days' }).click();
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(600);
   await page.screenshot({ path: path.join(OUT, 'screenshot-4-dark.png') });
   await page.emulateMedia({ colorScheme: 'light' });
 
   // 5. Toolbar popup, framed on a 1280x800 canvas.
   const popup = await context.newPage();
   await popup.setViewportSize({ width: 340, height: 520 });
+  // Opened as a tab, the popup would see itself as the current tab; pretend it's over YouTube.
+  await popup.addInitScript(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const c = (globalThis as any).chrome;
+    c.tabs.query = async () => [{ id: 1, active: true, url: 'https://www.youtube.com/watch?v=1' }];
+  });
   await popup.goto(`${base}/popup.html`);
-  await expect(popup.getByRole('heading', { name: 'Today' })).toBeVisible();
+  await expect(popup.getByRole('heading', { name: /on the web today/ })).toBeVisible();
   await popup.waitForTimeout(300);
   // Crop to the popup's content so the frame has no empty space below it.
   const popupPng = (await popup.locator('.popup').screenshot()).toString('base64');
@@ -86,43 +108,46 @@ test('capture store assets', async ({ context, worker, extensionId }) => {
   const card = await context.newPage();
   await renderCard(
     card,
+    base,
     'screenshot-5-popup.png',
     1280,
     800,
-    `<div style="${BRAND_BG};height:100%;display:flex;align-items:center;justify-content:center;gap:96px">
-      <div style="max-width:520px">
-        <div style="font-size:56px;font-weight:800;letter-spacing:-1px;line-height:1.05">Today, at a glance.</div>
-        <div style="font-size:26px;opacity:.85;margin-top:20px;line-height:1.4">Click the toolbar icon to see where your time went today, site by site.</div>
+    `<div style="${PAPER};height:100%;display:flex;align-items:center;justify-content:center;gap:110px">
+      <div style="max-width:480px">
+        <div style="${TITLE};font-size:60px">Today, <em>at a glance.</em></div>
+        <div style="font-size:22px;color:var(--ink-2);margin-top:22px;line-height:1.45">Click the toolbar icon to see how long you’ve been on this site, and where the rest of today went.</div>
       </div>
       <img src="data:image/png;base64,${popupPng}" width="340"
-        style="border-radius:14px;box-shadow:0 24px 64px rgba(10,10,40,.45)">
+        style="border-radius:10px;border:1px solid var(--rule);box-shadow:0 18px 50px oklch(26% 0.02 60 / 0.12)">
     </div>`,
   );
 
   // Small promo tile, 440x280.
   await renderCard(
     card,
+    base,
     'promo-small-440x280.png',
     440,
     280,
-    `<div style="${BRAND_BG};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
-      ${icon(104, 0).replace('fill="url(#bg)"', 'fill="#ffffff" fill-opacity="0.14"')}
-      <div style="font-size:46px;font-weight:800;letter-spacing:-1px">Overstay</div>
-      <div style="font-size:19px;opacity:.9">Know where your time goes.</div>
+    `<div style="${PAPER};height:100%;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:0 44px">
+      ${icon(64, 0)}
+      <div style="${TITLE};font-size:52px">Overstay</div>
+      <div style="${TAGLINE};font-size:21px">Know where your time goes.</div>
     </div>`,
   );
 
   // Marquee promo tile, 1400x560 (optional, used if the listing is featured).
   await renderCard(
     card,
+    base,
     'promo-marquee-1400x560.png',
     1400,
     560,
-    `<div style="${BRAND_BG};height:100%;display:flex;align-items:center;justify-content:center;gap:64px">
-      ${icon(220, 0).replace('fill="url(#bg)"', 'fill="#ffffff" fill-opacity="0.14"')}
+    `<div style="${PAPER};height:100%;display:flex;align-items:center;gap:72px;padding:0 150px">
+      ${icon(200, 0)}
       <div>
-        <div style="font-size:96px;font-weight:800;letter-spacing:-2px">Overstay</div>
-        <div style="font-size:38px;opacity:.9;margin-top:8px">Know where your time goes,<br>and when you've overstayed.</div>
+        <div style="${TITLE};font-size:112px">Overstay</div>
+        <div style="${TAGLINE};font-size:40px;margin-top:14px">Know where your time goes,<br>and when you’ve overstayed.</div>
       </div>
     </div>`,
   );

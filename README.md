@@ -12,7 +12,7 @@ Overstay runs in Chrome, Edge, and Brave (Manifest V3) and in Firefox 140 and la
 ## Features
 
 - **Active time per website.** Time is counted only while the tab is active, its window is focused, and you are not idle (default idle threshold: 60 seconds). Domains are grouped by base domain, so `mobile.twitter.com` counts toward `twitter.com`.
-- **Dashboard.** Today, week, and month totals, top sites, a time-of-day heatmap, and a "times you gave in" count.
+- **A calm dashboard.** Today at a glance (where the time went, hour by hour, and how each limit is doing), plus a 7 or 30 day history with every site, your weekly rhythm, and how often you gave in.
 - **Daily limits.** Set a limit for one site or a group of sites. For example, a "Twitter" group can cover `twitter.com` and `x.com` with a 1 hour per day limit. Limits can apply on selected weekdays only.
 - **Warnings.** A notification when you reach 80% of a limit and again with 5 minutes left, plus a toolbar badge.
 - **Block page with a guilt-trip unlock.** When a limit is reached, the site redirects to a block page. To override it, you must type a long sentence exactly. Pasting and dropping text is not allowed. An unlock grants a short grace period (default 5 minutes), and each further unlock that day requires a longer sentence.
@@ -26,11 +26,11 @@ Overstay does not store browsing history or URLs. It keeps only the number of se
 
 ![Dashboard overview](docs/screenshots/overview-light.png)
 
-| Block page with the typing challenge             | Daily limits                           |
-| ------------------------------------------------ | -------------------------------------- |
-| ![Block page](docs/screenshots/blocked.png)      | ![Limits](docs/screenshots/limits.png) |
-| **Dark mode**                                    | **Toolbar popup**                      |
-| ![Dark mode](docs/screenshots/overview-dark.png) | ![Popup](docs/screenshots/popup.png)   |
+| Block page with the typing challenge                        | Daily limits                           |
+| ----------------------------------------------------------- | -------------------------------------- |
+| ![Block page](docs/screenshots/blocked.png)                 | ![Limits](docs/screenshots/limits.png) |
+| **History, at night**                                       | **Toolbar popup**                      |
+| ![History in dark mode](docs/screenshots/overview-dark.png) | ![Popup](docs/screenshots/popup.png)   |
 
 _Screenshots use demo data. Regenerate them with `npm run screenshots`._
 
@@ -134,6 +134,10 @@ These features are not part of v1 and are planned for later:
 ## Contributing
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, and follow the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see [SECURITY.md](SECURITY.md).
+
+## Credits
+
+Type is set in [Newsreader](https://github.com/productiontype/Newsreader) and [Instrument Sans](https://github.com/Instrument/instrument-sans), both under the SIL Open Font License 1.1 and bundled with the extension.
 
 ## License
 

@@ -1,7 +1,6 @@
 import { useState } from 'preact/hooks';
 import { MINUTE } from '../../../core/time';
 import { getLimits, saveLimits } from '../../../storage';
-import { Logo, SiteAvatar } from '../../../ui/components';
 import { newLimitId } from '../../../ui/data';
 import { navigate } from '../router';
 
@@ -25,7 +24,6 @@ export function WelcomeView() {
   };
 
   const finish = async () => {
-    const existing = await getLimits();
     const add = PRESETS.filter((p) => picked.has(p.name)).map((p) => ({
       id: newLimitId(),
       name: p.name,
@@ -34,60 +32,55 @@ export function WelcomeView() {
       days: [],
       enabled: true,
     }));
-    await saveLimits([...existing, ...add]);
-    navigate(add.length ? 'limits' : 'overview');
+    await saveLimits([...(await getLimits()), ...add]);
+    navigate(add.length ? 'limits' : 'today');
   };
 
   return (
-    <div class="stack" style={{ gap: 20, maxWidth: 760 }}>
-      <div class="row">
-        <Logo size={44} />
-        <div>
-          <h1>Welcome to Overstay</h1>
-          <p class="muted">Know where your time goes, and when you've overstayed.</p>
-        </div>
-      </div>
-
-      <section class="card stack">
-        <h2>How it works</h2>
-        <ol class="stack muted" style={{ margin: 0, paddingLeft: 18, gap: 6 }}>
-          <li>
-            Overstay counts the time a site is in your active tab while you're at the keyboard.
-          </li>
-          <li>Give the sites that eat your day a daily allowance.</li>
-          <li>
-            When it runs out the site is blocked. Getting back in means typing an honest sentence
-            about what you're doing — longer every time you give in.
-          </li>
-        </ol>
-        <p class="subtle">
-          Private by design: no accounts, no servers, no analytics. Your data stays in this browser.
+    <>
+      <section class="lede enter">
+        <h1>
+          Hello. <em>Let’s see where the time goes.</em>
+        </h1>
+        <p>
+          Overstay quietly counts the minutes each site spends in front of you. When one takes more
+          than you’d like, it closes for the day — and getting back in means typing an honest
+          sentence about it.
         </p>
       </section>
 
-      <section class="card stack">
-        <h2>Start with a few limits?</h2>
-        <p class="muted">You can change or remove these at any time.</p>
+      <section class="section enter-2" aria-labelledby="start-h">
+        <div class="section-head">
+          <h2 id="start-h">Any of these pull you in?</h2>
+        </div>
         <div class="presets">
           {PRESETS.map((p) => (
             <label class="preset" key={p.name}>
               <input type="checkbox" checked={picked.has(p.name)} onChange={() => toggle(p.name)} />
-              <SiteAvatar domain={p.domains[0]!} size={24} />
-              <span class="stack" style={{ gap: 0 }}>
-                <strong>{p.name}</strong>
-                <span class="subtle">{p.minutes} min a day</span>
-              </span>
+              <span class="grow">{p.name}</span>
+              <span class="small faint">{p.minutes} min a day</span>
             </label>
           ))}
         </div>
-        <div class="row">
-          <button class="btn primary" onClick={() => void finish()}>
+        <div class="row" style={{ marginTop: 28 }}>
+          <button class="btn solid" onClick={() => void finish()}>
             {picked.size
-              ? `Add ${picked.size} ${picked.size === 1 ? 'limit' : 'limits'}`
-              : 'Skip for now'}
+              ? `Set ${picked.size === 1 ? 'this limit' : `these ${picked.size} limits`}`
+              : 'Just watch for now'}
           </button>
+          <span class="small faint">You can change any of this later.</span>
         </div>
       </section>
-    </div>
+
+      <section class="section enter-3" aria-labelledby="private-h">
+        <div class="section-head">
+          <h2 id="private-h">Private by design</h2>
+        </div>
+        <p class="muted" style={{ maxWidth: '60ch' }}>
+          No account, no servers, no analytics. Overstay stores how long you spend on each site —
+          never the pages, searches or anything you type — and keeps it in this browser.
+        </p>
+      </section>
+    </>
   );
 }

@@ -83,7 +83,7 @@ export function formatDuration(ms: number, opts: { seconds?: boolean } = {}): st
   const h = Math.floor(total / 3600);
   const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
-  if (h > 0) return `${h}h ${pad(m)}m`;
+  if (h > 0) return m ? `${h}h ${pad(m)}m` : `${h}h`;
   if (m > 0) return opts.seconds ? `${m}m ${pad(s)}s` : `${m}m`;
   return `${s}s`;
 }

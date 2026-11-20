@@ -38,7 +38,7 @@ async function expectBlocked(page: Page, extensionId: string) {
   await expect(page).toHaveURL(new RegExp(`^chrome-extension://${extensionId}/blocked\\.html`), {
     timeout: 15_000,
   });
-  await expect(page.getByRole('heading', { name: /Time's up for Distract/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /overstayed on Distract/ })).toBeVisible();
 }
 
 test('tracks active time per site and ignores browser pages', async ({ context, worker, site }) => {
@@ -194,7 +194,7 @@ test('popup shows today and can add a limit for the current site', async ({
 
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
-  await expect(popup.getByRole('heading', { name: 'Today' })).toBeVisible();
+  await expect(popup.getByRole('heading', { name: /on the web today/ })).toBeVisible();
   await expect(popup.getByText('other.test').first()).toBeVisible();
 
   const limits = await worker.evaluate(
@@ -219,13 +219,16 @@ test('dashboard: charts, limit editor and data export/import', async ({
   const dash = await context.newPage();
   const errors: string[] = [];
   dash.on('pageerror', (e) => errors.push(e.message));
-  await dash.goto(`chrome-extension://${extensionId}/options.html#/overview`);
-  await expect(dash.getByRole('heading', { name: 'Overview' })).toBeVisible();
-  await expect(dash.getByRole('img', { name: 'Active browsing time per day' })).toBeVisible();
+  await dash.goto(`chrome-extension://${extensionId}/options.html#/today`);
+  await expect(dash.getByRole('heading', { level: 1, name: /on the web today/ })).toBeVisible();
+  await expect(
+    dash.getByRole('img', { name: 'Active browsing time per hour today' }),
+  ).toBeVisible();
   await expect(dash.getByText('work.test').first()).toBeVisible();
 
   // Sites table
-  await dash.getByRole('link', { name: 'Sites' }).click();
+  await dash.getByRole('link', { name: 'History' }).click();
+  await expect(dash.getByRole('img', { name: 'Active browsing time per day' })).toBeVisible();
   await expect(dash.getByRole('cell', { name: 'work.test', exact: true })).toBeVisible();
 
   // Create a limit through the UI
@@ -244,7 +247,7 @@ test('dashboard: charts, limit editor and data export/import', async ({
   expect(limits).toMatchObject([{ domains: ['work.test'], dailyMs: 45 * 60 * 1000 }]);
 
   // Export a backup, wipe, and import it again
-  await dash.getByRole('link', { name: 'Your data' }).click();
+  await dash.getByRole('link', { name: 'Settings' }).click();
   const downloadPromise = dash.waitForEvent('download');
   await dash.getByRole('button', { name: 'Download backup (JSON)' }).click();
   const download = await downloadPromise;
@@ -260,13 +263,22 @@ test('dashboard: charts, limit editor and data export/import', async ({
 
   dash.once('dialog', (d) => void d.accept());
   await dash.getByTestId('import-file').setInputFiles(backupPath);
-  await expect(dash.getByTestId('data-message')).toContainText('Imported');
+  await expect(dash.getByTestId('data-message')).toContainText('Restored');
   expect(
     await worker.evaluate(async () => (await chrome.storage.local.get('limits')).limits),
   ).toMatchObject([{ domains: ['work.test'] }]);
 
   // Every view renders without runtime errors
-  for (const route of ['overview', 'sites', 'limits', 'settings', 'data', 'welcome']) {
+  for (const route of [
+    'today',
+    'history',
+    'limits',
+    'settings',
+    'welcome',
+    'overview',
+    'sites',
+    'data',
+  ]) {
     await dash.goto(`chrome-extension://${extensionId}/options.html#/${route}`);
     await dash.waitForTimeout(150);
   }

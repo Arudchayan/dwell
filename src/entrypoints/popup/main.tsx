@@ -7,45 +7,47 @@ import { dayTotal, domainTotals } from '../../core/stats';
 import { formatDuration, MINUTE } from '../../core/time';
 import { send } from '../../shared/messages';
 import { upsertLimit } from '../../storage';
-import { Icon, LimitSummary, Logo, SiteAvatar } from '../../ui/components';
+import { Chips, LimitLine, SiteBar, Wordmark } from '../../ui/components';
 import { loadToday, newLimitId } from '../../ui/data';
 import { useLiveData, useTheme } from '../../ui/hooks';
 import '../../ui/styles.css';
 import './popup.css';
 
-const QUICK_LIMITS = [15, 30, 60, 120];
+const QUICK_LIMITS = [
+  { value: 15, label: '15m' },
+  { value: 30, label: '30m' },
+  { value: 60, label: '1h' },
+  { value: 120, label: '2h' },
+];
+
+function openDashboard(hash = '') {
+  void browser.tabs.create({ url: browser.runtime.getURL(`/options.html${hash}`) });
+  window.close();
+}
 
 function Popup() {
   useTheme();
   const [domain, setDomain] = useState<string | null | undefined>(undefined);
-  const [adding, setAdding] = useState(false);
-  const [minutes, setMinutes] = useState(30);
   const { data } = useLiveData(loadToday, [], 5000);
 
   useEffect(() => {
     void (async () => {
-      // Flush the running segment so the numbers are up to date.
+      // Flush the running segment so the numbers are current.
       await send({ type: 'overstay:flush' }).catch(() => undefined);
       const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
       setDomain(domainFromUrl(tab?.url));
     })();
   }, []);
 
-  const openDashboard = (hash = '') => {
-    void browser.tabs.create({ url: browser.runtime.getURL(`/options.html${hash}`) });
-    window.close();
-  };
-
-  if (!data) return <div class="popup" />;
+  if (!data || domain === undefined) return <main class="popup" />;
 
   const total = dayTotal(data.usage);
   const top = domainTotals([data.usage]).slice(0, 5);
-  const max = top[0]?.ms ?? 1;
   const siteMs = domain ? (data.usage[domain] ?? []).reduce((a, b) => a + b, 0) : 0;
   const siteStatus = domain ? mostRestrictive(statusesForDomain(data.statuses, domain)) : null;
   const hasLimit = domain ? data.limits.some((l) => l.domains.includes(domain)) : false;
 
-  const addLimit = async () => {
+  const addLimit = async (minutes: number) => {
     if (!domain) return;
     await upsertLimit({
       id: newLimitId(),
@@ -55,96 +57,69 @@ function Popup() {
       days: [],
       enabled: true,
     });
-    setAdding(false);
   };
 
   return (
-    <div class="popup stack">
-      <header class="spread">
-        <div class="row">
-          <Logo size={22} />
-          <strong>Overstay</strong>
-        </div>
-        <button
-          class="btn ghost icon-btn"
-          title="Settings"
-          aria-label="Open settings"
-          onClick={() => openDashboard('#/settings')}
-        >
-          <Icon name="settings" />
+    <main class="popup">
+      <header class="spread popup-head">
+        <Wordmark size={18} />
+        <button class="btn link small" onClick={() => openDashboard('#/settings')}>
+          Settings
         </button>
       </header>
 
       {domain && (
-        <section class="card stack current" aria-label="Current site">
-          <div class="row">
-            <SiteAvatar domain={domain} size={30} />
-            <div class="grow">
-              <div class="truncate" style={{ fontWeight: 600 }}>
-                {domain}
-              </div>
-              <div class="subtle tabular">{formatDuration(siteMs)} today</div>
-            </div>
-          </div>
+        <section class="here enter" aria-label="This site">
+          <p class="label truncate">{domain}</p>
+          <p class="serif here-time num">
+            {formatDuration(siteMs)} <span class="here-sub">today</span>
+          </p>
           {siteStatus ? (
-            <LimitSummary status={siteStatus} />
+            <LimitLine status={siteStatus} title={<span class="small muted">Daily limit</span>} />
           ) : hasLimit ? (
-            <p class="subtle">Your limit for this site is not active today.</p>
-          ) : adding ? (
-            <div class="row">
-              <label class="sr-only" for="quick-limit">
-                Daily limit
-              </label>
-              <select
-                id="quick-limit"
-                value={minutes}
-                onChange={(e) => setMinutes(Number(e.currentTarget.value))}
-              >
-                {QUICK_LIMITS.map((m) => (
-                  <option value={m} key={m}>
-                    {formatDuration(m * MINUTE)} a day
-                  </option>
-                ))}
-              </select>
-              <button class="btn primary" onClick={() => void addLimit()}>
-                Save
-              </button>
-            </div>
+            <p class="small faint">Its limit is resting today.</p>
           ) : (
-            <button class="btn" onClick={() => setAdding(true)}>
-              <Icon name="clock" /> Set a daily limit
-            </button>
+            <div class="stack" style={{ gap: 8 }}>
+              <span class="small muted">Give it a daily limit</span>
+              <Chips
+                label="Daily limit"
+                value={null}
+                options={QUICK_LIMITS}
+                onChange={(m) => void addLimit(m)}
+              />
+            </div>
           )}
         </section>
       )}
 
-      <section class="stack" aria-label="Today">
-        <div class="spread">
-          <h2>Today</h2>
-          <span class="tabular total">{formatDuration(total)}</span>
-        </div>
+      <section class="today enter-2" aria-labelledby="today-heading">
+        <h2 id="today-heading" class="today-total">
+          <span class="num">{formatDuration(total)}</span>{' '}
+          <span class="here-sub">on the web today</span>
+        </h2>
         {top.length === 0 ? (
-          <p class="empty">No browsing tracked yet today.</p>
+          <p class="small muted" style={{ paddingTop: 8 }}>
+            Nothing yet. Time counts while a tab is open in front of you.
+          </p>
         ) : (
           <ul class="sites">
             {top.map((t) => (
-              <li class="site-row" key={t.domain}>
-                <SiteAvatar domain={t.domain} size={22} />
-                <div class="grow">
-                  <div class="truncate">{t.domain}</div>
-                  <div class="bar" style={{ width: `${Math.max(4, (t.ms / max) * 100)}%` }} />
-                </div>
-                <span class="tabular muted">{formatDuration(t.ms)}</span>
+              <li key={t.domain}>
+                <span class="truncate">{t.domain}</span>
+                <span class="num muted small">{formatDuration(t.ms)}</span>
+                <SiteBar value={t.ms} max={top[0]!.ms} />
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <button class="btn" style={{ justifyContent: 'center' }} onClick={() => openDashboard()}>
-        <Icon name="chart" /> Open dashboard
-      </button>
-    </div>
+      <footer class="popup-foot">
+        <button class="btn link" onClick={() => openDashboard()}>
+          See the whole week →
+        </button>
+      </footer>
+    </main>
   );
 }
 

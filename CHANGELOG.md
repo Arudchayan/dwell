@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- New "calm paper" design: warm paper and ink colours with one teal accent, serif headings (Newsreader) and a humanist sans (Instrument Sans), hairline rules instead of cards. Fonts are bundled, so nothing is loaded from the network.
+- Simpler dashboard: **Today**, **History**, **Limits** and **Settings** (data export, import and deletion now live at the bottom of Settings). Old links to Overview, Sites and Your data still work.
+- The popup leads with the site you are on and lets you set its limit in one click.
+- The block page is calmer and more personal ("You’ve overstayed on …"), and the sentence is typed straight under the text.
+- Limits are edited in place, with quick allowances (15m, 30m, 1h, 2h) and weekday toggles.
+- Durations read "1h" instead of "1h 00m".
+- New teal icon and store artwork to match.
+
 ## [0.1.1] - 2026-11-20
 
 ### Changed

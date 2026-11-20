@@ -200,7 +200,7 @@ describe('formatDuration', () => {
 
   it('formats hours with zero-padded minutes', () => {
     expect(formatDuration(65 * MINUTE)).toBe('1h 05m');
-    expect(formatDuration(3 * HOUR)).toBe('3h 00m');
+    expect(formatDuration(3 * HOUR)).toBe('3h');
   });
 
   it('clamps negative durations to zero', () => {

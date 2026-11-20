@@ -17,38 +17,40 @@ test('capture screenshots', async ({ context, worker, extensionId }) => {
   const page = await context.newPage();
   await page.setViewportSize({ width: 1280, height: 1300 });
 
+  // Light: today. Dark: the 30-day history.
   for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme });
-    await page.goto(`${base}/options.html#/overview`);
-    await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
-    await page.getByRole('button', { name: '30 days' }).click();
-    await page.waitForTimeout(400);
+    await page.goto(`${base}/options.html#/${theme === 'light' ? 'today' : 'history'}`);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    if (theme === 'dark') await page.getByRole('button', { name: '30 days' }).click();
+    await page.waitForTimeout(600);
     await page.screenshot({ path: `${OUT}/overview-${theme}.png`, fullPage: false });
   }
   await page.emulateMedia({ colorScheme: 'light' });
   await page.setViewportSize({ width: 1280, height: 860 });
 
   await page.goto(`${base}/options.html#/limits`);
-  await expect(page.getByRole('heading', { name: 'Limits' })).toBeVisible();
-  await page.waitForTimeout(200);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page.waitForTimeout(600);
   await page.screenshot({ path: `${OUT}/limits.png` });
-
-  await page.goto(`${base}/options.html#/sites`);
-  await page.getByRole('button', { name: '7 days' }).click();
-  await page.waitForTimeout(200);
-  await page.screenshot({ path: `${OUT}/sites.png` });
 
   await page.goto(`${base}/blocked.html?limit=x&url=${encodeURIComponent('https://x.com/home')}`);
   await page.getByTestId('open-challenge').click();
   const text = (await page.getByTestId('challenge-text').textContent())!;
   await page.getByTestId('challenge-input').pressSequentially(`${text.slice(0, 48)}x`);
-  await page.waitForTimeout(200);
+  await page.waitForTimeout(600);
   await page.screenshot({ path: `${OUT}/blocked.png` });
 
   const popup = await context.newPage();
   await popup.setViewportSize({ width: 340, height: 520 });
+  // Opened as a tab, the popup would see itself as the current tab; pretend it's over YouTube.
+  await popup.addInitScript(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const c = (globalThis as any).chrome;
+    c.tabs.query = async () => [{ id: 1, active: true, url: 'https://www.youtube.com/watch?v=1' }];
+  });
   await popup.goto(`${base}/popup.html`);
-  await expect(popup.getByRole('heading', { name: 'Today' })).toBeVisible();
-  await popup.waitForTimeout(300);
+  await expect(popup.getByRole('heading', { name: /on the web today/ })).toBeVisible();
+  await popup.waitForTimeout(600);
   await popup.screenshot({ path: `${OUT}/popup.png` });
 });

@@ -85,10 +85,10 @@ All in [`chrome/`](chrome/), generated from demo data with `npm run store-assets
 | Field                         | File                                                                                           | Required                                                     |
 | ----------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | Store icon (128x128)          | [`store-icon-128.png`](chrome/store-icon-128.png) (96x96 artwork, 16 px transparent padding)   | Yes                                                          |
-| Screenshot 1 (1280x800)       | [`screenshot-1-overview.png`](chrome/screenshot-1-overview.png): dashboard overview            | Yes (1–5)                                                    |
+| Screenshot 1 (1280x800)       | [`screenshot-1-overview.png`](chrome/screenshot-1-overview.png): today at a glance             | Yes (1–5)                                                    |
 | Screenshot 2                  | [`screenshot-2-blocked.png`](chrome/screenshot-2-blocked.png): block page and typing challenge |                                                              |
 | Screenshot 3                  | [`screenshot-3-limits.png`](chrome/screenshot-3-limits.png): daily limits                      |                                                              |
-| Screenshot 4                  | [`screenshot-4-dark.png`](chrome/screenshot-4-dark.png): dark mode                             |                                                              |
+| Screenshot 4                  | [`screenshot-4-dark.png`](chrome/screenshot-4-dark.png): 30-day history, night theme           |                                                              |
 | Screenshot 5                  | [`screenshot-5-popup.png`](chrome/screenshot-5-popup.png): toolbar popup                       |                                                              |
 | Small promo tile (440x280)    | [`promo-small-440x280.png`](chrome/promo-small-440x280.png)                                    | Optional, but listings without one rank after those with one |
 | Marquee promo tile (1400x560) | [`promo-marquee-1400x560.png`](chrome/promo-marquee-1400x560.png)                              | Optional (only for featuring)                                |
